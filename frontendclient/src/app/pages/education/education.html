@@ -1,0 +1,76 @@
+<div class="education-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Academic Journey</h1>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading education...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-state">
+      <i class="fas fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!loading && !error && educations.length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-graduation-cap"></i>
+      <p>No education records found</p>
+    </div>
+  }
+
+  <!-- Education Timeline - Redesigned Layout -->
+  @if (!loading && !error && educations.length > 0) {
+    <div class="timeline-wrapper">
+      <div class="timeline-content">
+        @for (edu of educations; track $index; let i = $index) {
+          <div class="education-item">
+        <!-- Left Side: Icon and Timeline -->
+        <div class="timeline-side">
+          <div class="timeline-icon-wrapper">
+            <div class="timeline-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+          </div>
+          @if (i < educations.length - 1) {
+            <div class="timeline-connector"></div>
+          }
+        </div>
+
+        <!-- Right Side: Education Card -->
+        <div class="education-details">
+          <div class="institution-header">
+            <h3 class="institution-name">{{ edu.instituitionName }}</h3>
+            <span class="education-year">{{ edu.fromYear }} - {{ edu.toYear || 'Present' }}</span>
+          </div>
+          
+          <h4 class="degree-name">{{ edu.name }}</h4>
+          
+          <div class="education-info">
+            @if (edu.cgpa) {
+              <span class="info-item">
+                <strong>GPA:</strong> {{ edu.cgpa }}
+              </span>
+            }
+            @if (edu.location) {
+              <span class="info-item">
+                {{ edu.location }}
+              </span>
+            }
+          </div>
+        </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

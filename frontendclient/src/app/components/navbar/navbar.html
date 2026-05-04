@@ -1,0 +1,17 @@
+<nav [class.hidden]="!isNavbarVisible">
+  <div class="nav-container">
+    <!-- Navigation Card with PrimeNG Menubar -->
+    <div class="nav-card">
+      <ul class="nav-list">
+        <li class="nav-item-wrapper" *ngFor="let item of items">
+          <a
+            class="nav-link"
+            [ngClass]="item.styleClass"
+            (click)="handleItemClick($event, item)">
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

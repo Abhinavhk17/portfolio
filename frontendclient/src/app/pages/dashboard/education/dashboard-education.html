@@ -1,0 +1,93 @@
+<div class="dashboard-header">
+  <h2>Manage Education</h2>
+  <button type="button" class="submit-btn add-btn" (click)="openCreateModal()">
+    Add Education
+  </button>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="modalTitle"
+  [saveText]="isEditMode ? 'Update' : 'Save'"
+  [disableSave]="isSaveDisabled()"
+  (save)="onModalSave()"
+  (cancel)="onModalCancel()"
+>
+  <form [formGroup]="educationForm" class="dashboard-form">
+    <div class="form-group">
+      <label>Degree/Course Name *</label>
+      <input type="text" formControlName="name" placeholder="e.g. Bachelor of Computer Science" required />
+      @if (educationForm.get('name')?.invalid && educationForm.get('name')?.touched) {
+        <span class="error">
+          Degree/Course name is required
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Institution Name *</label>
+      <input type="text" formControlName="instituitionName" placeholder="e.g. University of XYZ" required />
+      @if (educationForm.get('instituitionName')?.invalid && educationForm.get('instituitionName')?.touched) {
+        <span class="error">
+          Institution name is required
+        </span>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>From Year *</label>
+        <input type="text" formControlName="fromYear" placeholder="e.g. 2018" required />
+      </div>
+
+      <div class="form-group">
+        <label>To Year</label>
+        <input type="text" formControlName="toYear" placeholder="e.g. 2022 or Present" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" formControlName="location" placeholder="e.g. New York, USA" />
+    </div>
+
+    <div class="form-group">
+      <label>CGPA/Grade</label>
+      <input type="text" formControlName="cgpa" placeholder="e.g. 3.8/4.0 or First Class" />
+    </div>
+
+    <div class="form-group">
+      <label>Visibility</label>
+      <div class="switch-group">
+        <label class="switch">
+          <input type="checkbox" formControlName="isVisible" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-text">Show on portfolio</span>
+      </div>
+    </div>
+  </form>
+</app-modal>
+
+<app-data-grid
+  [columns]="educationColumns"
+  [data]="educations"
+  [loading]="loadingEducations"
+  (edit)="onEditEducation($event)"
+  (delete)="onDeleteEducation($event)"
+>
+</app-data-grid>
+
+<app-confirmation-dialog
+  [isOpen]="confirmDialogOpen"
+  [title]="confirmDialogTitle"
+  [message]="confirmDialogMessage"
+  [type]="confirmDialogType"
+  [icon]="confirmDialogIcon"
+  [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+></app-confirmation-dialog>
+
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

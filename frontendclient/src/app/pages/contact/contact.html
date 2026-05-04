@@ -1,0 +1,95 @@
+<div class="contact-container">
+  <div class="contact-content">
+    <!-- Contact Form Section -->
+    <div class="contact-form-section">
+      <div class="form-wrapper">
+        <!-- GIF Section - Left Side with Rotating Carousel -->
+        <div class="gif-section">
+          <div class="gif-container">
+            <img [src]="currentGif" alt="Contact Us" class="contact-gif" [@fadeAnimation]="currentGifIndex">
+          </div>
+
+          <!-- Carousel Indicators -->
+          <div class="gif-indicators">
+            @for (gif of gifs; track $index; let i = $index) {
+              <span class="indicator" [class.active]="i === currentGifIndex" (click)="setCurrentGif(i)">
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Form Section - Right Side -->
+        <div class="form-content">
+          <div class="form-header">
+            <h1 class="contact-title">Connect with me</h1>
+            <p class="contact-subtitle">Let's create something amazing together</p>
+          </div>
+
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+            <!-- Name & Email Row -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name <span class="required">*</span></label>
+                <input type="text" id="fullName" formControlName="fullName" placeholder="Enter your full Name"
+                  [class.error]="isFieldInvalid('fullName')">
+                @if (isFieldInvalid('fullName')) {
+                  <div class="error-message">
+                    <i class="pi pi-exclamation-circle"></i>
+                    Enter your full Name.
+                  </div>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" formControlName="email" placeholder="example@email.com"
+                  [class.error]="isFieldInvalid('email')">
+                @if (isFieldInvalid('email')) {
+                  <div class="error-message">
+                    <i class="pi pi-exclamation-circle"></i>
+                    Enter an email address like example@mysite.com.
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Message Field -->
+            <div class="form-group">
+              <label for="howCanIHelp">How can I help?</label>
+              <textarea id="howCanIHelp" formControlName="howCanIHelp" rows="5"
+                placeholder="Feel free to outline your ideas or needs..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+              {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Icons - Next to Form, Below -->
+    <div class="social-icons-wrapper">
+      <div class="social-icons">
+        <a [attr.href]="githubLink" (click)="onExternalClick(githubLink, $event)" target="_blank" rel="noopener noreferrer" class="social-icon"
+          title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a [attr.href]="linkedinLink" (click)="onExternalClick(linkedinLink, $event)" target="_blank" rel="noopener noreferrer" class="social-icon"
+          title="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a [attr.href]="emailLink || null" class="social-icon" title="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+        <a [attr.href]="instagramLink" (click)="onExternalClick(instagramLink, $event)" target="_blank" rel="noopener noreferrer" class="social-icon"
+          title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-loader [show]="isSubmitting" [message]="'Submitting your message...'"></app-page-loader>

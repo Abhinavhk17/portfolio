@@ -1,0 +1,77 @@
+<div class="dashboard-header">
+  <h2>Manage Skills</h2>
+  <button type="button" class="submit-btn add-btn" (click)="openCreateModal()">
+    Add Skill
+  </button>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="modalTitle"
+  [saveText]="isEditMode ? 'Update' : 'Save'"
+  [disableSave]="isSaveDisabled()"
+  (save)="onModalSave()"
+  (cancel)="onModalCancel()"
+>
+  <form [formGroup]="skillForm" class="dashboard-form">
+    <div class="form-group">
+      <label>Skill Name *</label>
+      <input type="text" formControlName="name" placeholder="e.g. Angular, React" required />
+      @if (skillForm.get('name')?.invalid && skillForm.get('name')?.touched) {
+        <span class="error">
+          Skill name is required
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Skill Logo {{ isEditMode ? '' : '*' }}</label>
+      <input type="file" accept="image/*" [disabled]="isEditMode" (change)="onSkillImageSelected($event)" />
+      <small class="form-hint">
+        {{ isEditMode ? 'Logo updates are not supported yet.' : 'Upload a square logo for best results' }}
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Visibility</label>
+      <div class="switch-group">
+        <label class="switch">
+          <input type="checkbox" formControlName="isVisible" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-text">Show on portfolio</span>
+      </div>
+    </div>
+
+    @if (selectedSkillImagePreviewUrl) {
+      <div class="form-preview">
+        <img [src]="selectedSkillImagePreviewUrl" alt="Selected skill logo preview" />
+        <button type="button" class="secondary-btn" (click)="clearSkillImage()">
+          Remove
+        </button>
+      </div>
+    }
+  </form>
+</app-modal>
+<app-data-grid
+  [columns]="skillColumns"
+  [data]="skills"
+  [loading]="loadingSkills"
+  (edit)="onEditSkill($event)"
+  (delete)="onDeleteSkill($event)"
+>
+</app-data-grid>
+
+<app-confirmation-dialog
+  [isOpen]="confirmDialogOpen"
+  [title]="confirmDialogTitle"
+  [message]="confirmDialogMessage"
+  [type]="confirmDialogType"
+  [icon]="confirmDialogIcon"
+  [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+></app-confirmation-dialog>
+
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

@@ -1,0 +1,40 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1 class="hero-title">
+      Hey, I'm <span class="name-highlight">Abhinav H K</span>.
+    </h1>
+
+    <p class="hero-description">
+      Full Stack Developer skilled in
+      <app-rotating-text
+        [texts]="['Java', 'Microservices', 'Spring Boot', 'Angular', 'AWS', 'CI/CD']"
+        [rotationInterval]="2000"
+        [staggerDuration]="25"
+        staggerFrom="last"
+        mainClassName="rotating-badge"
+        splitLevelClassName="rotating-split"
+      ></app-rotating-text>
+      <br>
+      Experienced in building and optimizing backend services.<br>
+      Proven ability to drive workflow efficiency and improve system reliability.
+    </p>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" (click)="onResumeClick($event)">
+        <span>Resume</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </button>
+
+      <button class="btn btn-connect" (click)="onConnectClick($event)">
+        <span>Let's Connect</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 17L17 7M17 7H7M17 7V17" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

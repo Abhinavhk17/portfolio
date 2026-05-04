@@ -1,0 +1,106 @@
+<div class="dashboard-container">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar">{{ portfolioInitials || 'NA' }}</div>
+      <div class="profile-text">
+        <h3>{{ portfolioName || 'Portfolio' }}</h3>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="sidebar-link" [class.active]="activeTab === 'dashboard'" (click)="setActiveTab('dashboard')">
+        <i class="pi pi-th-large"></i>
+        Dashboard
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'skills'" (click)="setActiveTab('skills')">
+        <i class="pi pi-star"></i>
+        Skills
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'projects'" (click)="setActiveTab('projects')">
+        <i class="pi pi-briefcase"></i>
+        Projects
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'experience'" (click)="setActiveTab('experience')">
+        <i class="pi pi-sitemap"></i>
+        Experience
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'education'" (click)="setActiveTab('education')">
+        <i class="pi pi-book"></i>
+        Education
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'contacts'" (click)="setActiveTab('contacts')">
+        <i class="pi pi-envelope"></i>
+        Contacts
+      </button>
+      <button class="sidebar-link" [class.active]="activeTab === 'settings'" (click)="setActiveTab('settings')">
+        <i class="pi pi-cog"></i>
+        Settings
+      </button>
+    </nav>
+
+    <button class="logout-link" (click)="logout()">
+      <i class="pi pi-sign-out"></i>
+      Logout
+    </button>
+  </aside>
+
+  <section class="content-area">
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+      <div>
+        <h1>Portfolio Dashboard</h1>
+        <p class="dashboard-subtitle">Welcome to your portfolio dashboard</p>
+      </div>
+    </header>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      @switch (activeTab) {
+        @case ('dashboard') {
+          <div class="tab-pane">
+            <app-dashboard-home></app-dashboard-home>
+          </div>
+        }
+        @case ('skills') {
+          <div class="tab-pane">
+            <app-dashboard-skills></app-dashboard-skills>
+          </div>
+        }
+        @case ('projects') {
+          <div class="tab-pane">
+            <app-dashboard-projects></app-dashboard-projects>
+          </div>
+        }
+        @case ('experience') {
+          <div class="tab-pane">
+            <app-dashboard-experience></app-dashboard-experience>
+          </div>
+        }
+        @case ('education') {
+          <div class="tab-pane">
+            <app-dashboard-education></app-dashboard-education>
+          </div>
+        }
+        @case ('contacts') {
+          <div class="tab-pane">
+            <app-dashboard-contacts></app-dashboard-contacts>
+          </div>
+        }
+        @case ('settings') {
+          <div class="tab-pane">
+            <app-dashboard-settings></app-dashboard-settings>
+          </div>
+        }
+      }
+    </div>
+  </section>
+</div>
+
+<!-- Confirmation Dialog -->
+<app-confirmation-dialog [isOpen]="confirmDialogOpen" [title]="confirmDialogTitle" [message]="confirmDialogMessage"
+  [type]="confirmDialogType" [icon]="confirmDialogIcon" [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText" (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"></app-confirmation-dialog>
+
+<!-- Page Loader -->
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

@@ -1,0 +1,13 @@
+<h2>Contact Submissions</h2>
+
+<div class="contact-info">
+  <p>View all contact form submissions from your website visitors.</p>
+</div>
+
+<app-data-grid
+  [columns]="contactColumns"
+  [data]="contacts"
+  [loading]="loadingContacts"
+  [showActions]="false"
+>
+</app-data-grid>

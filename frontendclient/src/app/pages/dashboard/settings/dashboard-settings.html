@@ -1,0 +1,60 @@
+<div class="dashboard-header">
+  <h2>Settings</h2>
+  <button type="button" class="submit-btn add-btn" (click)="openCreateModal()">
+    Add Setting
+  </button>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="modalTitle"
+  [saveText]="isEditMode ? 'Update' : 'Save'"
+  [disableSave]="isSaveDisabled()"
+  (save)="onModalSave()"
+  (cancel)="onModalCancel()"
+>
+  <form [formGroup]="settingsForm" class="dashboard-form">
+    <div class="form-group">
+      <label>Key *</label>
+      <input type="text" formControlName="key" placeholder="e.g. siteTitle" required />
+      @if (settingsForm.get('key')?.invalid && settingsForm.get('key')?.touched) {
+        <span class="error">
+          Key is required
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Value *</label>
+      <textarea formControlName="value" placeholder="Enter value" rows="3" required></textarea>
+      @if (settingsForm.get('value')?.invalid && settingsForm.get('value')?.touched) {
+        <span class="error">
+          Value is required
+        </span>
+      }
+    </div>
+  </form>
+</app-modal>
+
+<app-data-grid
+  [columns]="settingColumns"
+  [data]="settings"
+  [loading]="loadingSettings"
+  (edit)="onEditSetting($event)"
+  (delete)="onDeleteSetting($event)"
+>
+</app-data-grid>
+
+<app-confirmation-dialog
+  [isOpen]="confirmDialogOpen"
+  [title]="confirmDialogTitle"
+  [message]="confirmDialogMessage"
+  [type]="confirmDialogType"
+  [icon]="confirmDialogIcon"
+  [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+></app-confirmation-dialog>
+
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

@@ -1,0 +1,70 @@
+.text-rotate {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  position: relative;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.text-rotate-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.text-rotate-word {
+  display: inline-flex;
+}
+
+.text-rotate-lines {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.text-rotate-element {
+  display: inline-block;
+  animation: rotateIn 600ms ease both;
+  font-size: inherit;
+}
+
+.text-rotate-space {
+  white-space: pre;
+}
+
+.rotating-badge {
+  display: inline-flex;
+  align-items: center;
+  min-width: 8ch;
+  padding: 0.14em 0.7em;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(58, 41, 255, 0.18), rgba(255, 148, 180, 0.18));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  margin-left: 0.35em;
+  letter-spacing: 0.02em;
+  font-size: 1.25em;
+}
+
+.rotating-split {
+  padding-bottom: 2px;
+}
+
+@keyframes rotateIn {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg) translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+  }
+}
+

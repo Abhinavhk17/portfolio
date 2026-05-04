@@ -1,0 +1,21 @@
+<span class="text-rotate" [ngClass]="mainClassName">
+  <span class="text-rotate-sr-only">{{ currentText }}</span>
+  <span class="text-rotate" aria-hidden="true">
+    @for (word of elements; track $index) {
+      <span class="text-rotate-word" [ngClass]="splitLevelClassName">
+        @for (char of word.characters; track char.key) {
+          <span
+            class="text-rotate-element"
+            [ngClass]="elementLevelClassName"
+            [style.animationDelay.ms]="char.delay"
+          >
+            {{ char.value }}
+          </span>
+        }
+        @if (word.needsSpace) {
+          <span class="text-rotate-space"> </span>
+        }
+      </span>
+    }
+  </span>
+</span>

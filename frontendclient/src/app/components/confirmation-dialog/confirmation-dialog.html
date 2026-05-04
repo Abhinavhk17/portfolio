@@ -1,0 +1,33 @@
+@if (isOpen) {
+  <div class="dialog-overlay" (click)="onBackdropClick($event)">
+    <div class="dialog-container" [class.danger]="type === 'danger'" [class.warning]="type === 'warning'" [class.info]="type === 'info'">
+      <!-- Dialog Header -->
+      <div class="dialog-header">
+        <div class="icon-wrapper" [class.danger]="type === 'danger'" [class.warning]="type === 'warning'" [class.info]="type === 'info'">
+          <i class="fas" [ngClass]="icon"></i>
+        </div>
+        <button class="close-btn" (click)="onCancel()" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Dialog Body -->
+      <div class="dialog-body">
+        <h2 class="dialog-title">{{ title }}</h2>
+        <p class="dialog-message">{{ message }}</p>
+      </div>
+
+      <!-- Dialog Footer -->
+      <div class="dialog-footer">
+        <button class="btn btn-cancel" (click)="onCancel()">
+          <i class="fas fa-times"></i>
+          {{ cancelText }}
+        </button>
+        <button class="btn btn-confirm" [class.danger]="type === 'danger'" [class.warning]="type === 'warning'" (click)="onConfirm()">
+          <i class="fas fa-check"></i>
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

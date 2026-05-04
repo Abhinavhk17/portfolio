@@ -1,0 +1,46 @@
+<div 
+  #container
+  [ngClass]="containerClasses"
+  [ngStyle]="cssVariables"
+  [attr.aria-label]="ariaLabel"
+  role="region"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()">
+  
+  <div 
+    #track 
+    class="logoloop__track">
+    
+    @for (copyIndex of copies; track $index; let first = $first) {
+      <ul
+        [class.logoloop__list]="true"
+        [class.first-sequence]="first"
+        [attr.aria-hidden]="!first"
+        role="list">
+        
+        @for (logo of logos; track $index) {
+          <li
+            class="logoloop__item"
+            role="listitem">
+            
+            @if (logo.imageUrl) {
+              <img
+                [src]="logo.imageUrl"
+                [alt]="logo.alt || logo.name"
+                [title]="logo.title || logo.name"
+                class="logoloop__logo"
+                loading="eager"
+                decoding="async"
+                draggable="false"
+              />
+            } @else {
+              <div class="logoloop__fallback">
+                <i class="fas fa-code"></i>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

@@ -1,0 +1,23 @@
+@if (isOpen) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal-container" [ngClass]="'modal-' + size" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ title }}</h3>
+        <button type="button" class="modal-close" (click)="onCancel()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="secondary-btn" (click)="onCancel()">
+          {{ cancelText }}
+        </button>
+        <button type="button" class="submit-btn" [disabled]="disableSave" (click)="onSave()">
+          {{ saveText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

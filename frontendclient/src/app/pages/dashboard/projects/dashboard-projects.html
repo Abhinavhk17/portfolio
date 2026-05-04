@@ -1,0 +1,81 @@
+<div class="dashboard-header">
+  <h2>Manage Projects</h2>
+  <button type="button" class="submit-btn add-btn" (click)="openCreateModal()">
+    Add Project
+  </button>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="modalTitle"
+  [saveText]="isEditMode ? 'Update' : 'Save'"
+  [disableSave]="isSaveDisabled()"
+  (save)="onModalSave()"
+  (cancel)="onModalCancel()"
+>
+  <form [formGroup]="projectForm" class="dashboard-form">
+    <div class="form-group">
+      <label>Project Name *</label>
+      <input type="text" formControlName="name" placeholder="Project Name" required />
+      @if (projectForm.get('name')?.invalid && projectForm.get('name')?.touched) {
+        <span class="error">
+          Project name is required
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Description *</label>
+      <textarea formControlName="description" placeholder="Project Description" rows="4" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Technologies</label>
+      <input
+        type="text"
+        formControlName="technologies"
+        placeholder="e.g. Angular, Node.js, MongoDB (comma-separated)"
+      />
+      <small class="form-hint">Enter technologies separated by commas</small>
+    </div>
+
+    <div class="form-group">
+      <label>Project URL</label>
+      <input type="url" formControlName="url" placeholder="https://example.com" />
+    </div>
+
+    <div class="form-group">
+      <label>Visibility</label>
+      <div class="switch-group">
+        <label class="switch">
+          <input type="checkbox" formControlName="isVisible" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-text">Show on portfolio</span>
+      </div>
+    </div>
+  </form>
+</app-modal>
+
+<app-data-grid
+  [columns]="projectColumns"
+  [data]="projects"
+  [loading]="loadingProjects"
+  (edit)="onEditProject($event)"
+  (delete)="onDeleteProject($event)"
+>
+</app-data-grid>
+
+<app-confirmation-dialog
+  [isOpen]="confirmDialogOpen"
+  [title]="confirmDialogTitle"
+  [message]="confirmDialogMessage"
+  [type]="confirmDialogType"
+  [icon]="confirmDialogIcon"
+  [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+></app-confirmation-dialog>
+
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

@@ -1,0 +1,114 @@
+<div class="dashboard-header">
+  <h2>Manage Experience</h2>
+  <button type="button" class="submit-btn add-btn" (click)="openCreateModal()">
+    Add Experience
+  </button>
+</div>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="modalTitle"
+  [saveText]="isEditMode ? 'Update' : 'Save'"
+  [disableSave]="isSaveDisabled()"
+  (save)="onModalSave()"
+  (cancel)="onModalCancel()"
+>
+  <form [formGroup]="experienceForm" class="dashboard-form">
+    <div class="form-group">
+      <label>Company *</label>
+      <input type="text" formControlName="company" placeholder="Company Name" required />
+      @if (experienceForm.get('company')?.invalid && experienceForm.get('company')?.touched) {
+        <span class="error">
+          Company name is required
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Title *</label>
+      <input type="text" formControlName="title" placeholder="Job Title" required />
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" formControlName="location" placeholder="e.g. New York, USA" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Start Date *</label>
+        <p-datepicker
+          formControlName="startDate"
+          dateFormat="yy-mm-dd"
+          [showIcon]="true"
+          placeholder="YYYY-MM-DD"
+          [required]="true"
+        ></p-datepicker>
+      </div>
+
+      <div class="form-group">
+        <label>End Date</label>
+        <p-datepicker
+          formControlName="endDate"
+          dateFormat="yy-mm-dd"
+          [showIcon]="true"
+          placeholder="YYYY-MM-DD"
+          [disabled]="experienceForm.get('current')?.value"
+        ></p-datepicker>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="current" formControlName="current" />
+        <label for="current" class="checkbox-label">
+          <i class="pi pi-check"></i>
+          I currently work here
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea
+        formControlName="description"
+        placeholder="Job responsibilities and achievements"
+        rows="4"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Visibility</label>
+      <div class="switch-group">
+        <label class="switch">
+          <input type="checkbox" formControlName="isVisible" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-text">Show on portfolio</span>
+      </div>
+    </div>
+  </form>
+</app-modal>
+
+<app-data-grid
+  [columns]="experienceColumns"
+  [data]="experiences"
+  [loading]="loadingExperiences"
+  (edit)="onEditExperience($event)"
+  (delete)="onDeleteExperience($event)"
+>
+</app-data-grid>
+
+<app-confirmation-dialog
+  [isOpen]="confirmDialogOpen"
+  [title]="confirmDialogTitle"
+  [message]="confirmDialogMessage"
+  [type]="confirmDialogType"
+  [icon]="confirmDialogIcon"
+  [confirmText]="confirmDialogConfirmText"
+  [cancelText]="confirmDialogCancelText"
+  (confirmed)="onConfirmDelete()"
+  (cancelled)="onCancelDelete()"
+></app-confirmation-dialog>
+
+<app-page-loader [show]="isLoading" [message]="loadingMessage"></app-page-loader>

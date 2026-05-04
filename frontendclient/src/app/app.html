@@ -1,0 +1,44 @@
+@if (showMainContent) {
+  <app-aurora [colorStops]="['#3A29FF', '#FF94B4', '#FF3232']" [amplitude]="1.0" [blend]="0.5"
+    [speed]="0.5"></app-aurora>
+}
+@if (showMainContent) {
+  <app-navbar />
+}
+
+<!-- Main scrollable content - shown when NOT on admin route -->
+@if (showMainContent) {
+  <div class="main-content">
+    <section id="home">
+      <app-home />
+    </section>
+    <section id="skills">
+      <app-skill />
+    </section>
+    <section id="projects">
+      <app-projects />
+    </section>
+    <section id="education">
+      <app-education />
+    </section>
+    <section id="experience">
+      <app-experience />
+    </section>
+    <section id="contact">
+      <app-contact />
+    </section>
+  </div>
+}
+
+<!-- Router outlet for admin/signin page - shown when on admin route -->
+<router-outlet />
+
+<!-- Scroll to top button -->
+@if (showScrollTop && showMainContent) {
+  <button class="scroll-to-top" (click)="scrollToTop()" [@fadeInOut]>
+    <i class="fa fa-arrow-up"></i>
+  </button>
+}
+
+<!-- Toast notifications -->
+<app-toast></app-toast>

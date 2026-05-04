@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed navbar */
+}
+
+/* Add smooth scroll with slower animation */
+* {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+body {
+    background: #121212;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    cursor: default;
+    font-family: 'Source Sans 3', sans-serif;
+    color: #ffffff;  /* White text color */
+}
+
+/* Apply to all elements to override any component-specific styles */
+* {
+    font-family: 'Source Sans 3', sans-serif;
+    color: #ffffff;  /* White text color */
+}
+
+/* Override PrimeNG default fonts and colors */
+.p-component {
+    font-family: 'Source Sans 3', sans-serif;
+    color: #ffffff;  /* White text color */
+}
+

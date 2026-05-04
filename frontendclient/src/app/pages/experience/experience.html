@@ -1,0 +1,109 @@
+<div class="experience-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Professional Journey</h1>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading experiences...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-state">
+      <i class="fas fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!loading && !error && experiences.length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-briefcase"></i>
+      <p>No experiences found</p>
+    </div>
+  }
+
+  <!-- Animated Timeline -->
+  @if (!loading && !error && experiences.length > 0) {
+    <div class="timeline-wrapper">
+      <!-- Central vertical line -->
+      <div class="timeline-line-container">
+        <div class="timeline-line"></div>
+      </div>
+
+      <!-- Timeline Items -->
+      @for (exp of experiences; track $index; let i = $index) {
+        <div
+          class="timeline-item"
+          [class.left]="isEven(i)"
+          [class.right]="!isEven(i)"
+        >
+          <!-- Animated Dot in Center -->
+          <div class="timeline-dot">
+            <div class="dot-inner"></div>
+            <div class="dot-pulse"></div>
+          </div>
+
+          <!-- Experience Card -->
+          <div class="experience-card">
+            <div class="card-glow"></div>
+
+            <!-- Date Badge -->
+            <div class="date-badge">
+              <span class="date-start">{{ formatDate(exp.startDate) }}</span>
+              <span class="date-separator">—</span>
+              <span class="date-end">{{ formatDate(exp.endDate) }}</span>
+              @if (calculateDuration(exp.startDate, exp.endDate)) {
+                <div class="duration">
+                  {{ calculateDuration(exp.startDate, exp.endDate) }}
+                </div>
+              }
+            </div>
+
+            <!-- Card Content -->
+            <div class="card-content">
+              <h3 class="job-title">{{ exp.title }}</h3>
+              <h4 class="company-name">
+                @if (exp.companyLogoUrl) {
+                  <img [src]="exp.companyLogoUrl" [alt]="exp.company + ' logo'" class="company-logo-inline" />
+                } @else {
+                  <i class="fas fa-building"></i>
+                }
+                {{ exp.company }}
+              </h4>
+
+              @if (exp.location) {
+                <div class="location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  {{ exp.location }}
+                </div>
+              }
+
+              @if (exp.description) {
+                <p class="description">
+                  {{ exp.description }}
+                </p>
+              }
+
+              <!-- Current Company Badge -->
+              @if (exp.current) {
+                <div class="current-badge">
+                  <i class="fas fa-circle"></i>
+                  Current Position
+                </div>
+              }
+            </div>
+
+            <!-- Decorative Corner -->
+            <div class="card-corner"></div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

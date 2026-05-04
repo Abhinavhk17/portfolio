@@ -1,0 +1,46 @@
+<div class="skills-container">
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading skills...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-state">
+      <i class="fas fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if (!loading && !error && skills.length === 0) {
+    <div class="empty-state">
+      <i class="fas fa-info-circle"></i>
+      <p>No skills found</p>
+    </div>
+  }
+
+  <!-- Skills Logo Loop - Single Row -->
+  @if (!loading && !error && skills.length > 0) {
+    <div class="skills-loop-container">
+      <!-- Single Row - Scrolling Right -->
+      <div class="loop-row">
+        <app-logo-loop
+          [logos]="getAllLogos()"
+          [speed]="50"
+          direction="right"
+          [logoHeight]="100"
+          [gap]="50"
+          [pauseOnHover]="true"
+          [scaleOnHover]="true"
+          [fadeOut]="true"
+          fadeOutColor="#121212"
+          ariaLabel="Technical Skills"
+        ></app-logo-loop>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,72 @@
+<div class="signin-container">
+  <div class="signin-content">
+    <div class="signin-form-section">
+      <div class="form-wrapper">
+        <!-- Image Section - Left Side -->
+        <div class="image-section">
+          <div class="image-container">
+            <img src="/login.png" alt="Login" class="login-image">
+          </div>
+        </div>
+
+        <!-- Form Section - Right Side -->
+        <div class="form-content">
+          <div class="form-header">
+            <h1 class="signin-title">Welcome Back</h1>
+            <p class="signin-subtitle">Sign in to access your portfolio dashboard</p>
+          </div>
+
+          <form class="login-form" (ngSubmit)="onSubmit()">
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="email">Email <span class="required">*</span></label>
+              <input 
+                type="email" 
+                id="email"
+                placeholder="example@email.com" 
+                class="form-input"
+                [(ngModel)]="loginData.email"
+                name="email"
+                required
+              />
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+              <label for="password">Password <span class="required">*</span></label>
+              <input 
+                type="password" 
+                id="password"
+                placeholder="Enter your password" 
+                class="form-input"
+                [(ngModel)]="loginData.password"
+                name="password"
+                required
+              />
+            </div>
+
+            <!-- Error Message -->
+            @if (errorMessage) {
+              <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ errorMessage }}
+              </div>
+            }
+
+            <!-- Forgot Password Link -->
+            <div class="form-footer">
+              <a href="#" class="forgot-password">Forgot your password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="signin-btn" [disabled]="isLoading">
+              {{ isLoading ? 'SIGNING IN...' : 'SIGN IN' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-loader [show]="isLoading" message="Signing in..."></app-page-loader>

@@ -1,0 +1,52 @@
+<div class="data-grid-container">
+  @if (loading) {
+    <div class="grid-loading">
+      <div class="spinner"></div>
+      <p>Loading data...</p>
+    </div>
+  }
+
+  @if (!loading && data.length === 0) {
+    <div class="grid-empty">
+      <p>No data available</p>
+    </div>
+  }
+
+  @if (!loading && data.length > 0) {
+    <div class="grid-wrapper">
+      <table class="data-grid">
+        <thead>
+          <tr>
+            @for (column of columns; track $index) {
+              <th>{{ column.header }}</th>
+            }
+            @if (showActions) {
+              <th class="actions-col">Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of data; track $index) {
+            <tr>
+              @for (column of columns; track $index) {
+                <td>
+                  {{ getDisplayValue(item, column) }}
+                </td>
+              }
+              @if (showActions) {
+                <td class="actions-cell">
+                  <button class="btn-edit" (click)="onEdit(item)" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-delete" (click)="onDelete(item)" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

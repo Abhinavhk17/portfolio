@@ -1,0 +1,46 @@
+/* Main content wrapper for all scrollable sections */
+.main-content {
+  width: 100%;
+}
+
+/* Section containers for smooth scrolling */
+.main-content section {
+  scroll-margin-top: 80px; /* Adjust based on navbar height */
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00d4aa 0%, #00ffc8 100%);
+  border: none;
+  border-radius: 50%;
+  color: #0a0a0a;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 20px rgba(0, 212, 170, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 30px rgba(0, 212, 170, 0.6);
+  background: linear-gradient(135deg, #00ffc8 0%, #00d4aa 100%);
+}
+
+.scroll-to-top:active {
+  transform: translateY(-2px);
+}
+
+.scroll-to-top i {
+  font-size: 20px;
+  font-weight: bold;
+}
+

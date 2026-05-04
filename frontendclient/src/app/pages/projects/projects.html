@@ -1,0 +1,84 @@
+<div class="projects-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Featured Projects</h1>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading projects...</p>
+  </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+  <div class="error-state">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadProjects()">
+      <i class="fas fa-redo"></i>
+      Try Again
+    </button>
+  </div>
+  }
+
+  <!-- Empty State -->
+  @if (!loading && !error && projects.length === 0) {
+  <div class="empty-state">
+    <i class="fas fa-folder-open"></i>
+    <p>No projects found</p>
+  </div>
+  }
+
+  <!-- Projects Grid -->
+  @if (!loading && !error && projects.length > 0) {
+  <div class="projects-grid">
+    @for (project of projects; track $index) {
+    <div class="project-card" [class.is-disabled]="!project.url" [class.is-clickable]="!!project.url">
+      <!-- Card Content -->
+      <div class="card-inner" role="button" [attr.aria-disabled]="!project.url" tabindex="0"
+        (click)="openProject(project.url)" (keydown.enter)="openProject(project.url)"
+        (keydown.space)="openProject(project.url)">
+        <!-- Project Image -->
+        <div class="card-image">
+          @if (project.imageUrl) {
+          <img [src]="project.imageUrl" [alt]="project.name" loading="lazy" />
+          } @else {
+          <div class="placeholder-image">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          }
+
+          <!-- Gradient Overlay -->
+          <div class="image-overlay"></div>
+        </div>
+
+        <!-- Card Details -->
+        <div class="card-details">
+          <!-- Project Info -->
+          <div class="card-info">
+            <h3 class="project-name">{{ project.name }}</h3>
+            @if (project.description) {
+            <p class="project-description">
+              {{ project.description }}
+            </p>
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  @if (githubUrl) {
+  <div class="projects-explore">
+    <button class="explore-more-btn" (click)="openProject(githubUrl)">
+      Explore More
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+  }
+  }
+</div>
