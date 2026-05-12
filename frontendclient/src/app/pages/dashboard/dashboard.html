@@ -1,7 +1,7 @@
 <div class="dashboard-container">
   <aside class="sidebar">
     <div class="sidebar-profile">
-      <div class="avatar">{{ portfolioInitials || 'NA' }}</div>
+      <img class="profile-image" src="/abhinav.png" alt="Abhinav" />
       <div class="profile-text">
         <h3>{{ portfolioName || 'Portfolio' }}</h3>
       </div>
@@ -39,8 +39,8 @@
     </nav>
 
     <button class="logout-link" (click)="logout()">
-      <i class="pi pi-sign-out"></i>
-      Logout
+      <i class="pi pi-sign-out logout-icon" aria-hidden="true"></i>
+      <span>Logout</span>
     </button>
   </aside>
 

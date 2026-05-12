@@ -28,32 +28,28 @@
 
 .sidebar-profile {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   padding: 16px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #6f42ff 0%, #b845ff 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 16px;
-  color: white;
-  box-shadow: 0 8px 20px rgba(111, 66, 255, 0.35);
+.profile-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
 }
 
 .profile-text h3 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
+  text-align: center;
 }
 
 .profile-text span {
@@ -121,10 +117,20 @@
   transition: all 0.25s ease;
 }
 
+.logout-icon {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1;
+}
+
 .logout-link:hover {
   background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   transform: translateX(3px);
+}
+
+.logout-link:hover .logout-icon {
+  color: #ffffff;
 }
 
 /* Content Area */
