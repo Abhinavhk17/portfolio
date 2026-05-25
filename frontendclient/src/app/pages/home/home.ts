@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RotatingText } from '../../components/rotating-text/rotating-text';
 import { SettingsService } from '../../api/generated/settings/settings.service';
 import { AppConstants } from '../../constants';
+import { AnalyticsService } from '../../api/generated/analytics/analytics.service';
+import { AnalyticsEventRequestType } from '../../api/models';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +12,22 @@ import { AppConstants } from '../../constants';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
   resumeUrl = '';
 
   private readonly settingsService = inject(SettingsService);
+  private readonly analyticsService = inject(AnalyticsService);
 
   constructor() {
     this.loadSettings();
   }
 
+  ngOnInit(): void {
+    this.recordEvent(AnalyticsEventRequestType.profile_view);
+  }
+
   onResumeClick(event: Event) {
+    this.recordEvent(AnalyticsEventRequestType.cv_download);
     this.openExternal(this.resumeUrl, event);
   }
 
@@ -61,6 +69,35 @@ export class Home {
       return;
     }
     window.open(normalized, '_blank', 'noopener');
+  }
+
+  private recordEvent(type: AnalyticsEventRequestType) {
+    this.analyticsService
+      .recordEvent({ type, source: this.getSourceFromReferrer() })
+      .catch(() => undefined);
+  }
+
+  private getSourceFromReferrer(): string {
+    const referrer = document.referrer;
+    if (!referrer) {
+      return 'direct';
+    }
+
+    try {
+      const hostname = new URL(referrer).hostname.toLowerCase();
+      if (hostname.includes('linkedin')) {
+        return 'LinkedIn';
+      }
+      if (hostname.includes('github')) {
+        return 'GitHub';
+      }
+      if (hostname.includes('google')) {
+        return 'Google';
+      }
+      return hostname || 'direct';
+    } catch {
+      return 'direct';
+    }
   }
 
   private normalizeUrl(url: string | null | undefined): string | null {

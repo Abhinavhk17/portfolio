@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ProjectsService } from '../../api/generated/projects/projects.service';
 import { FileManagementService } from '../../api/generated/file-management/file-management.service';
 import { SettingsService } from '../../api/generated/settings/settings.service';
-import { Project } from '../../api/models';
+import { AnalyticsEventRequestType, Project } from '../../api/models';
+import { AnalyticsService } from '../../api/generated/analytics/analytics.service';
 import { AppConstants } from '../../constants';
 
 interface ProjectWithImage extends Project {
@@ -26,7 +27,8 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private fileManagementService: FileManagementService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
@@ -109,9 +111,44 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
-  openProject(url?: string) {
-    if (url) {
-      window.open(url, '_blank');
+  openProject(project?: ProjectWithImage | { url?: string }) {
+    if (!project?.url) {
+      return;
+    }
+
+    if ('id' in project && project.id) {
+      this.recordEvent(AnalyticsEventRequestType.project_view, project.id);
+    }
+
+    window.open(project.url, '_blank');
+  }
+
+  private recordEvent(type: AnalyticsEventRequestType, projectId?: string) {
+    this.analyticsService
+      .recordEvent({ type, source: this.getSourceFromReferrer(), projectId })
+      .catch(() => undefined);
+  }
+
+  private getSourceFromReferrer(): string {
+    const referrer = document.referrer;
+    if (!referrer) {
+      return 'direct';
+    }
+
+    try {
+      const hostname = new URL(referrer).hostname.toLowerCase();
+      if (hostname.includes('linkedin')) {
+        return 'LinkedIn';
+      }
+      if (hostname.includes('github')) {
+        return 'GitHub';
+      }
+      if (hostname.includes('google')) {
+        return 'Google';
+      }
+      return hostname || 'direct';
+    } catch {
+      return 'direct';
     }
   }
 }

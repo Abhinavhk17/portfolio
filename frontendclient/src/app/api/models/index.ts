@@ -5,6 +5,15 @@
  * OpenAPI spec version: v0
  */
 
+export * from './analyticsEvent';
+export * from './analyticsEventRequest';
+export * from './analyticsEventRequestType';
+export * from './analyticsEventType';
+export * from './analyticsMetric';
+export * from './analyticsOverviewCards';
+export * from './analyticsOverviewResponse';
+export * from './analyticsSourceBreakdown';
+export * from './analyticsTrendPoint';
 export * from './contact';
 export * from './createSkillBody';
 export * from './createSkillParams';
@@ -13,6 +22,9 @@ export * from './experience';
 export * from './findByEmailParams';
 export * from './findByFromYearParams';
 export * from './findByLocationParams';
+export * from './getOverviewParams';
+export * from './getProfileViewsTrendParams';
+export * from './getTopSourcesParams';
 export * from './login200';
 export * from './login400';
 export * from './login401';

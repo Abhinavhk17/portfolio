@@ -18,6 +18,8 @@ import { PageLoader } from '../../components/page-loader/page-loader';
 import { ToastService } from '../../components/toast/toast.service';
 import { SettingsService } from '../../api/generated/settings/settings.service';
 import { AppConstants } from '../../constants';
+import { AnalyticsService } from '../../api/generated/analytics/analytics.service';
+import { AnalyticsEventRequestType } from '../../api/models';
 
 @Component({
   selector: 'app-contact',
@@ -52,7 +54,8 @@ export class Contact implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private contactsService: ContactsService,
     private toastService: ToastService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
@@ -177,6 +180,7 @@ export class Contact implements OnInit, OnDestroy {
           this.isSubmitting = false;
           this.toastService.success('Message sent successfully!');
           this.contactForm.reset();
+          this.recordEvent(AnalyticsEventRequestType.contact_submit);
         })
         .catch((error: any) => {
           this.isSubmitting = false;
@@ -188,6 +192,35 @@ export class Contact implements OnInit, OnDestroy {
       Object.keys(this.contactForm.controls).forEach((key) => {
         this.contactForm.get(key)?.markAsTouched();
       });
+    }
+  }
+
+  private recordEvent(type: AnalyticsEventRequestType) {
+    this.analyticsService
+      .recordEvent({ type, source: this.getSourceFromReferrer() })
+      .catch(() => undefined);
+  }
+
+  private getSourceFromReferrer(): string {
+    const referrer = document.referrer;
+    if (!referrer) {
+      return 'direct';
+    }
+
+    try {
+      const hostname = new URL(referrer).hostname.toLowerCase();
+      if (hostname.includes('linkedin')) {
+        return 'LinkedIn';
+      }
+      if (hostname.includes('github')) {
+        return 'GitHub';
+      }
+      if (hostname.includes('google')) {
+        return 'Google';
+      }
+      return hostname || 'direct';
+    } catch {
+      return 'direct';
     }
   }
 }

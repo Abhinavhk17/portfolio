@@ -1,4 +1,99 @@
-<h2>Dashboard</h2>
-<div class="empty-state">
-  <p>Dashboard widgets will appear here soon.</p>
-</div>
+<section class="analytics">
+  <div class="analytics-header">
+    <div>
+      <h2>Analytics Overview</h2>
+    </div>
+  </div>
+
+  <div class="analytics-body" [class.is-loading]="isLoading">
+    <div class="state-message" *ngIf="loadError">
+      <p>{{ loadError }}</p>
+    </div>
+
+    <div class="kpi-grid" *ngIf="!loadError">
+      @for (card of kpiCards; track card.key) {
+      <article class="kpi-card">
+        <div class="kpi-card-top">
+          <div class="kpi-icon" [class]="'tone-' + card.tone">
+            <i [class]="card.icon"></i>
+          </div>
+          <p class="kpi-label">{{ card.label }}</p>
+        </div>
+        <div class="kpi-card-bottom">
+          <h3>{{ formatNumber(getMetricTotal(card.key)) }}</h3>
+          <div class="kpi-change" [class.positive]="isPositive(getMetricChange(card.key))"
+            [class.negative]="!isPositive(getMetricChange(card.key))">
+            <span>{{ formatChange(getMetricChange(card.key)) }}</span>
+            <small>vs last month</small>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+
+    <div class="analytics-grid" *ngIf="!loadError">
+      <article class="chart-card">
+        <header>
+          <h3>Profile Views</h3>
+          <button class="range-pill" type="button">{{ rangeLabel }}</button>
+        </header>
+
+        <div class="chart-body">
+          <svg viewBox="0 0 100 40" preserveAspectRatio="none" *ngIf="profileTrend.length">
+            <defs>
+              <linearGradient id="profileTrendFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path class="trend-area" [attr.d]="trendAreaPath"></path>
+            <path class="trend-line" [attr.d]="trendLinePath"></path>
+          </svg>
+
+          <div class="chart-empty" *ngIf="!profileTrend.length">
+            No trend data yet.
+          </div>
+        </div>
+
+        <div class="chart-labels">
+          @for (item of trendLabels; track item.label) {
+          <span class="chart-label" [style.left.%]="item.offset">{{ item.label }}</span>
+          }
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <header>
+          <h3>Top Sources</h3>
+        </header>
+
+        <div class="sources-grid">
+          <div class="donut-wrapper">
+            <svg class="donut" viewBox="0 0 120 120" *ngIf="donutSegments.length">
+              <circle class="donut-base" cx="60" cy="60" r="44" pathLength="100"></circle>
+              @for (segment of donutSegments; track segment.label) {
+              <circle class="donut-segment" cx="60" cy="60" r="44" pathLength="100" [attr.stroke]="segment.color"
+                [attr.stroke-dasharray]="segment.dashArray" [attr.stroke-dashoffset]="segment.dashOffset"></circle>
+              }
+            </svg>
+
+            <div class="donut-center">
+              <strong>{{ formatNumber(profileViewsTotal) }}</strong>
+              <span>Views</span>
+            </div>
+          </div>
+
+          <div class="sources-list">
+            @for (source of sourcesList; track source.label) {
+            <div class="source-item">
+              <span class="source-dot" [style.background]="source.color"></span>
+              <span class="source-name">{{ source.label }}</span>
+              <span class="source-percent">{{ source.percent }}%</span>
+            </div>
+            }
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

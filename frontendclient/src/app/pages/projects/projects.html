@@ -39,8 +39,8 @@
     <div class="project-card" [class.is-disabled]="!project.url" [class.is-clickable]="!!project.url">
       <!-- Card Content -->
       <div class="card-inner" role="button" [attr.aria-disabled]="!project.url" tabindex="0"
-        (click)="openProject(project.url)" (keydown.enter)="openProject(project.url)"
-        (keydown.space)="openProject(project.url)">
+        (click)="openProject(project)" (keydown.enter)="openProject(project)"
+        (keydown.space)="openProject(project)">
         <!-- Project Image -->
         <div class="card-image">
           @if (project.imageUrl) {
@@ -74,7 +74,7 @@
   </div>
   @if (githubUrl) {
   <div class="projects-explore">
-    <button class="explore-more-btn" (click)="openProject(githubUrl)">
+    <button class="explore-more-btn" (click)="openProject({ url: githubUrl })">
       Explore More
       <i class="fas fa-arrow-right"></i>
     </button>
